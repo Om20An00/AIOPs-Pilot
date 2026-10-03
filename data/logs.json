@@ -1,0 +1,242 @@
+{
+ "INC-1001": [
+  {
+   "ts": "2026-09-28T10:14:02Z",
+   "level": "INFO",
+   "message": "Started OrderApplication v2.14.0 in 14.2 seconds"
+  },
+  {
+   "ts": "2026-09-28T10:18:40Z",
+   "level": "WARN",
+   "message": "HikariPool-1 - Pool stats (total=10, active=10, idle=0, waiting=37)"
+  },
+  {
+   "ts": "2026-09-28T10:20:11Z",
+   "level": "ERROR",
+   "message": "HikariPool-1 - Connection is not available, request timed out after 30000ms."
+  },
+  {
+   "ts": "2026-09-28T10:20:43Z",
+   "level": "ERROR",
+   "message": "HikariPool-1 - Connection is not available, request timed out after 30001ms."
+  },
+  {
+   "ts": "2026-09-28T10:21:05Z",
+   "level": "ERROR",
+   "message": "Unable to acquire JDBC Connection: connection pool exhausted (maxPoolSize=10)"
+  },
+  {
+   "ts": "2026-09-28T10:21:30Z",
+   "level": "ERROR",
+   "message": "HikariPool-1 - Connection is not available, request timed out after 30000ms."
+  },
+  {
+   "ts": "2026-09-28T10:22:02Z",
+   "level": "ERROR",
+   "message": "Unable to acquire JDBC Connection: connection pool exhausted (maxPoolSize=10)"
+  },
+  {
+   "ts": "2026-09-28T10:22:40Z",
+   "level": "WARN",
+   "message": "Slow request POST /orders took 30112ms"
+  },
+  {
+   "ts": "2026-09-28T10:23:15Z",
+   "level": "ERROR",
+   "message": "HikariPool-1 - Connection is not available, request timed out after 30002ms."
+  },
+  {
+   "ts": "2026-09-28T10:23:50Z",
+   "level": "ERROR",
+   "message": "POST /orders failed with status 503"
+  },
+  {
+   "ts": "2026-09-28T10:24:10Z",
+   "level": "INFO",
+   "message": "Health probe /actuator/health returned UP"
+  }
+ ],
+ "INC-1002": [
+  {
+   "ts": "2026-09-28T14:26:00Z",
+   "level": "INFO",
+   "message": "Started PaymentApplication v3.2.1 in 9.8 seconds"
+  },
+  {
+   "ts": "2026-09-28T14:30:12Z",
+   "level": "ERROR",
+   "message": "java.lang.NullPointerException: Cannot invoke \"PaymentRequest.getCurrency()\" because \"req\" is null"
+  },
+  {
+   "ts": "2026-09-28T14:31:01Z",
+   "level": "ERROR",
+   "message": "java.lang.NullPointerException: Cannot invoke \"PaymentRequest.getCurrency()\" because \"req\" is null"
+  },
+  {
+   "ts": "2026-09-28T14:32:20Z",
+   "level": "ERROR",
+   "message": "Unhandled exception in PaymentController.charge: NullPointerException at CurrencyConverter.convert(CurrencyConverter.java:58)"
+  },
+  {
+   "ts": "2026-09-28T14:33:45Z",
+   "level": "ERROR",
+   "message": "java.lang.NullPointerException: Cannot invoke \"PaymentRequest.getCurrency()\" because \"req\" is null"
+  },
+  {
+   "ts": "2026-09-28T14:34:10Z",
+   "level": "WARN",
+   "message": "Container restarted: liveness probe failed 3 times"
+  },
+  {
+   "ts": "2026-09-28T14:35:02Z",
+   "level": "ERROR",
+   "message": "Unhandled exception in PaymentController.charge: NullPointerException at CurrencyConverter.convert(CurrencyConverter.java:58)"
+  },
+  {
+   "ts": "2026-09-28T14:36:30Z",
+   "level": "ERROR",
+   "message": "POST /payments/charge failed with status 500"
+  },
+  {
+   "ts": "2026-09-28T14:37:00Z",
+   "level": "WARN",
+   "message": "Container restarted: liveness probe failed 3 times"
+  }
+ ],
+ "INC-1003": [
+  {
+   "ts": "2026-09-27T09:00:10Z",
+   "level": "WARN",
+   "message": "Redis used_memory 99% of maxmemory, evicted_keys rising"
+  },
+  {
+   "ts": "2026-09-27T09:03:21Z",
+   "level": "ERROR",
+   "message": "Redis command timed out after 2000ms: GET cart:session:8841"
+  },
+  {
+   "ts": "2026-09-27T09:04:05Z",
+   "level": "ERROR",
+   "message": "OOM command not allowed when used memory > 'maxmemory'."
+  },
+  {
+   "ts": "2026-09-27T09:05:12Z",
+   "level": "ERROR",
+   "message": "Redis command timed out after 2000ms: GET cart:session:1207"
+  },
+  {
+   "ts": "2026-09-27T09:06:40Z",
+   "level": "ERROR",
+   "message": "OOM command not allowed when used memory > 'maxmemory'."
+  },
+  {
+   "ts": "2026-09-27T09:07:15Z",
+   "level": "WARN",
+   "message": "Cache miss ratio 71% for cart sessions (evicted keys)"
+  },
+  {
+   "ts": "2026-09-27T09:08:02Z",
+   "level": "ERROR",
+   "message": "Redis command timed out after 2000ms: SET cart:session:5530"
+  },
+  {
+   "ts": "2026-09-27T09:09:30Z",
+   "level": "ERROR",
+   "message": "Failed to load cart for user, falling back to empty cart"
+  },
+  {
+   "ts": "2026-09-27T09:10:00Z",
+   "level": "INFO",
+   "message": "Health probe returned UP"
+  }
+ ],
+ "INC-1004": [
+  {
+   "ts": "2026-09-26T16:35:00Z",
+   "level": "INFO",
+   "message": "Calling shipping-provider.example/v2/rates"
+  },
+  {
+   "ts": "2026-09-26T16:38:20Z",
+   "level": "ERROR",
+   "message": "Read timed out calling shipping-provider.example after 10000ms"
+  },
+  {
+   "ts": "2026-09-26T16:39:11Z",
+   "level": "ERROR",
+   "message": "Upstream shipping-provider.example responded 504 Gateway Timeout"
+  },
+  {
+   "ts": "2026-09-26T16:40:02Z",
+   "level": "ERROR",
+   "message": "Read timed out calling shipping-provider.example after 10000ms"
+  },
+  {
+   "ts": "2026-09-26T16:41:30Z",
+   "level": "WARN",
+   "message": "Upstream latency for shipping-provider.example avg 9.8s (baseline 0.4s)"
+  },
+  {
+   "ts": "2026-09-26T16:42:45Z",
+   "level": "ERROR",
+   "message": "Upstream shipping-provider.example responded 504 Gateway Timeout"
+  },
+  {
+   "ts": "2026-09-26T16:43:10Z",
+   "level": "ERROR",
+   "message": "Read timed out calling shipping-provider.example after 10000ms"
+  },
+  {
+   "ts": "2026-09-26T16:44:00Z",
+   "level": "ERROR",
+   "message": "Checkout step shipping-quote failed: upstream dependency unavailable"
+  },
+  {
+   "ts": "2026-09-26T16:45:00Z",
+   "level": "INFO",
+   "message": "Health probe returned UP"
+  }
+ ],
+ "INC-1005": [
+  {
+   "ts": "2026-09-25T00:01:00Z",
+   "level": "INFO",
+   "message": "Serving TLS with certificate CN=auth.example.com"
+  },
+  {
+   "ts": "2026-09-25T00:05:09Z",
+   "level": "ERROR",
+   "message": "SSL handshake failed: certificate has expired (notAfter=2026-09-24T23:59:59Z)"
+  },
+  {
+   "ts": "2026-09-25T00:05:44Z",
+   "level": "ERROR",
+   "message": "SSL handshake failed: certificate has expired (notAfter=2026-09-24T23:59:59Z)"
+  },
+  {
+   "ts": "2026-09-25T00:06:30Z",
+   "level": "ERROR",
+   "message": "x509: certificate has expired or is not yet valid"
+  },
+  {
+   "ts": "2026-09-25T00:07:12Z",
+   "level": "ERROR",
+   "message": "SSL handshake failed: certificate has expired (notAfter=2026-09-24T23:59:59Z)"
+  },
+  {
+   "ts": "2026-09-25T00:08:00Z",
+   "level": "WARN",
+   "message": "Client reported TLS alert: bad_certificate"
+  },
+  {
+   "ts": "2026-09-25T00:09:25Z",
+   "level": "ERROR",
+   "message": "x509: certificate has expired or is not yet valid"
+  },
+  {
+   "ts": "2026-09-25T00:10:00Z",
+   "level": "INFO",
+   "message": "Application process healthy, CPU 12%"
+  }
+ ]
+}

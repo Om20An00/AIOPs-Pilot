@@ -1,0 +1,12 @@
+[
+  {"id": "INC-1001", "title": "Order placement failing with 503 errors", "service": "order-service", "severity": "SEV1", "started_at": "2026-09-28T10:20:00Z",
+   "description": "Customers cannot place orders. Requests to order-service hang for 30 seconds and then fail with 503. Database CPU looks normal but the application seems unable to get database connections."},
+  {"id": "INC-1002", "title": "Payment failures spiking right after release", "service": "payment-service", "severity": "SEV1", "started_at": "2026-09-28T14:35:00Z",
+   "description": "Payment API is returning HTTP 500 for most card transactions. Pods are crash-looping and restarting repeatedly. The problem started shortly after a new version was rolled out."},
+  {"id": "INC-1003", "title": "Cart page extremely slow, items disappearing", "service": "cart-service", "severity": "SEV2", "started_at": "2026-09-27T09:05:00Z",
+   "description": "Shopping cart loads take several seconds and items randomly vanish from carts. The in-memory key-value store used for sessions and carts appears overloaded."},
+  {"id": "INC-1004", "title": "Checkout timing out on shipping quote step", "service": "checkout-service", "severity": "SEV2", "started_at": "2026-09-26T16:40:00Z",
+   "description": "Checkout hangs on the shipping rate step and eventually times out. Our own pods are healthy, no recent releases. Calls to an external courier partner API seem very slow."},
+  {"id": "INC-1005", "title": "Users unable to log in, TLS errors", "service": "auth-service", "severity": "SEV1", "started_at": "2026-09-25T00:05:00Z",
+   "description": "Login requests from mobile and web clients fail with secure connection errors. Clients report they cannot establish a trusted encrypted connection to the authentication endpoint."}
+]

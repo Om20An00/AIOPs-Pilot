@@ -1,0 +1,92 @@
+[
+ {
+  "id": "PI-001",
+  "title": "Checkout API returning 503 under load",
+  "description": "Orders failed with 503 and requests stalled around 30s. Application threads were waiting for a database connection while the database itself was idle.",
+  "category": "db_pool_exhaustion",
+  "root_cause": "Connection pool maximum size was set too low after a config change; all connections busy and requests queued.",
+  "resolution": "Raised the pool size, restarted pods to clear stuck connections.",
+  "action": "increase_db_pool_and_restart"
+ },
+ {
+  "id": "PI-002",
+  "title": "Reporting job starves app of database connections",
+  "description": "A long running report query held many connections. Web requests timed out waiting to borrow a connection from the pool.",
+  "category": "db_pool_exhaustion",
+  "root_cause": "Leaked connections from a new query that never closed result sets, exhausting the pool.",
+  "resolution": "Fixed the leak, restarted service, increased pool temporarily.",
+  "action": "increase_db_pool_and_restart"
+ },
+ {
+  "id": "PI-003",
+  "title": "Payments returning 500 after new version",
+  "description": "Spike of HTTP 500 and pod restarts immediately after a release. Stack traces showed a null pointer in new code path.",
+  "category": "bad_deployment",
+  "root_cause": "Regression introduced by the latest release; missing null check in new feature code.",
+  "resolution": "Rolled back to the previous version, fix shipped next day.",
+  "action": "rollback_deployment"
+ },
+ {
+  "id": "PI-004",
+  "title": "Login service crash looping after rollout",
+  "description": "Pods restarted continuously and error rate climbed minutes after a deployment. Logs showed unhandled exceptions on startup.",
+  "category": "bad_deployment",
+  "root_cause": "Bad configuration and code change in latest release caused unhandled exception on startup.",
+  "resolution": "Rolled back the release.",
+  "action": "rollback_deployment"
+ },
+ {
+  "id": "PI-005",
+  "title": "Session store overloaded, carts empty",
+  "description": "Cache latency jumped, keys were evicted and users lost cart contents. Memory of the in-memory store was full.",
+  "category": "cache_degradation",
+  "root_cause": "Redis hit maxmemory because TTLs were missing on new keys, causing evictions and OOM errors.",
+  "resolution": "Flushed stale keys, added TTLs, scaled up the cache node.",
+  "action": "scale_cache_and_flush"
+ },
+ {
+  "id": "PI-006",
+  "title": "Recommendation cache timeouts",
+  "description": "Reads from the key-value cache timed out intermittently and miss ratio rose sharply. Cache memory usage near 100 percent.",
+  "category": "cache_degradation",
+  "root_cause": "Cache memory exhausted by oversized values, leading to evictions and slow commands.",
+  "resolution": "Scaled cache memory and flushed oversized keys.",
+  "action": "scale_cache_and_flush"
+ },
+ {
+  "id": "PI-007",
+  "title": "Shipping rates call hanging",
+  "description": "Checkout steps timed out when calling an external partner API. Our services were healthy but the partner responded with gateway timeouts.",
+  "category": "upstream_dependency",
+  "root_cause": "Third party provider outage causing very high latency and 504 responses.",
+  "resolution": "Enabled circuit breaker with cached fallback rates until provider recovered.",
+  "action": "enable_circuit_breaker"
+ },
+ {
+  "id": "PI-008",
+  "title": "Address verification vendor slow",
+  "description": "Signup flow stalled calling an external verification vendor. Read timeouts to the vendor, no internal changes.",
+  "category": "upstream_dependency",
+  "root_cause": "External vendor degraded; no timeout or fallback protection on our side.",
+  "resolution": "Enabled circuit breaker and shorter timeouts.",
+  "action": "enable_circuit_breaker"
+ },
+ {
+  "id": "PI-009",
+  "title": "Mobile app cannot connect securely",
+  "description": "Clients failed to establish encrypted connections to the API gateway. Handshake errors started exactly at midnight.",
+  "category": "certificate_expiry",
+  "root_cause": "The TLS certificate expired because auto renewal job had silently failed.",
+  "resolution": "Issued and installed a new certificate, fixed renewal job.",
+  "action": "rotate_certificate"
+ },
+ {
+  "id": "PI-010",
+  "title": "Partner webhook TLS failures",
+  "description": "Partner systems rejected our endpoint with trust errors. Server process was healthy but secure connections failed.",
+  "category": "certificate_expiry",
+  "root_cause": "Expired intermediate certificate in the served chain.",
+  "resolution": "Replaced certificate chain.",
+  "action": "rotate_certificate"
+ }
+]

@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>OpsPilot V2</title>
+<style>
+ :root{--bg:#0f1a20;--card:#17262e;--line:#2a3f4a;--fg:#e6eef2;--mut:#8aa0ab;--acc:#4fb0c6;--ok:#4cc38a;--bad:#e5645a;--warn:#e0b84c}
+ *{box-sizing:border-box}body{margin:0;font:14px/1.5 system-ui,sans-serif;background:var(--bg);color:var(--fg)}
+ header{padding:16px 24px;border-bottom:1px solid var(--line)}h1{margin:0;font-size:20px}header small{color:var(--mut)}
+ main{display:grid;grid-template-columns:340px 1fr;gap:16px;padding:16px 24px}@media(max-width:800px){main{grid-template-columns:1fr}}
+ .card{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:12px;margin-bottom:12px}
+ .inc{cursor:pointer}.inc:hover,.inc.sel{border-color:var(--acc)}.inc b{display:block}
+ .tag{display:inline-block;font-size:11px;padding:1px 8px;border-radius:10px;background:#22343d;color:var(--mut);margin-right:4px}
+ .ok{color:var(--ok)}.bad{color:var(--bad)}.warn{color:var(--warn)}
+ button{background:var(--acc);color:#04222b;border:0;border-radius:6px;padding:7px 14px;font-weight:600;cursor:pointer}
+ button.sec{background:#22343d;color:var(--fg)}button:disabled{opacity:.5}
+ input[type=text]{background:#0f1a20;border:1px solid var(--line);color:var(--fg);padding:6px;border-radius:6px}
+ .bar{height:8px;background:#22343d;border-radius:4px;overflow:hidden}.bar i{display:block;height:100%;background:var(--acc)}
+ h3{margin:0 0 6px;font-size:13px;text-transform:uppercase;letter-spacing:.05em;color:var(--mut)}
+ .grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}@media(max-width:1000px){.grid{grid-template-columns:1fr}}
+ code{color:var(--acc)}
+</style></head><body>
+<header><h1>OpsPilot V2 <small>— agentic incident investigation &amp; remediation (demo data, all actions simulated)</small></h1></header>
+<main><section id="list"></section><section id="detail"><div class="card">Select an incident, then run an investigation.</div></section></main>
+<script>
+const $=s=>document.querySelector(s);let sel=null;
+const api=async(m,p,b)=>{const r=await fetch(p,{method:m,headers:{'Content-Type':'application/json'},body:b?JSON.stringify(b):undefined});
+ const j=await r.json();if(!r.ok)throw new Error(j.detail||r.statusText);return j};
+const esc=s=>String(s).replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));
+async function loadList(){const l=await api('GET','/api/incidents');
+ $('#list').innerHTML=l.map(i=>`<div class="card inc ${sel==i.id?'sel':''}" onclick="pick('${i.id}')"><b>${i.id} · ${esc(i.title)}</b>
+ <span class="tag">${i.severity}</span><span class="tag">${i.service}</span><span class="tag">${i.investigation_status}</span></div>`).join('')}
+async function pick(id){sel=id;loadList();const i=(await api('GET','/api/incidents')).find(x=>x.id==id);
+ let inv=null;try{inv=await api('GET',`/api/incidents/${id}/investigation`)}catch(e){}
+ inv?render(inv):$('#detail').innerHTML=`<div class="card"><b>${i.id}</b><p>${esc(i.description)}</p><button onclick="run('${id}')">Run investigation</button></div>`}
+async function run(id){$('#detail').innerHTML='<div class="card">Agents investigating…</div>';render(await api('POST',`/api/incidents/${id}/investigate`));loadList()}
+const checks=(t,c)=>c?`<div class="card"><h3>${t}</h3>${c.map(x=>`<div class="${x.passed?'ok':'bad'}">${x.passed?'✔':'✘'} ${x.name} <span style="color:var(--mut)">— ${esc(x.detail)}</span></div>`).join('')}</div>`:'';
+function render(d){const rc=d.root_cause,p=d.remediation_plan,pct=Math.round(d.confidence*100);
+ const ev=d.evidence.map(e=>`<div class="card"><h3>${e.source}</h3>${esc(e.summary)}</div>`).join('');
+ const hyp=d.hypotheses.map(h=>`<div>${h.category} <span style="color:var(--mut)">${h.score}</span></div>`).join('');
+ let act='';
+ if(d.status=='awaiting_approval')act=`<div class="card"><h3>Human approval gate</h3><input type="text" id="who" placeholder="your name">
+  ${d.low_confidence?'<label class="warn"><input type="checkbox" id="ack"> I acknowledge the low confidence</label>':''}
+  <p><button onclick="decide(true)">Approve &amp; run (simulated)</button> <button class="sec" onclick="decide(false)">Reject</button></p><div id="err" class="bad"></div></div>`;
+ $('#detail').innerHTML=`<div class="card"><b>${d.incident.id} · ${esc(d.incident.title)}</b> <span class="tag">status: ${d.status}</span><span class="tag">trace ${d.trace_id.slice(0,8)}</span>
+  <h3 style="margin-top:10px">Root cause · <code>${rc.category}</code> ${rc.llm_used?'<span class="tag">LLM reasoning</span>':'<span class="tag">rule-based summary</span>'}</h3>
+  <p>${esc(rc.summary)}</p>${rc.contributing_factors.map(f=>`<p class="warn">⚠ ${esc(f)}</p>`).join('')}
+  <h3>Confidence ${pct}% ${d.low_confidence?'<span class="warn">(low)</span>':''}</h3><div class="bar"><i style="width:${pct}%"></i></div></div>
+  <div class="grid">${ev}</div>
+  <div class="card"><h3>Hypothesis scores</h3>${hyp}</div>
+  <div class="card"><h3>Recommended remediation</h3><code>${p.action}</code> · risk ${p.risk} ${p.rollback_to?'· roll back to '+p.rollback_to:''}<br>${p.steps.map(s=>'• '+s).join('<br>')}</div>
+  ${act}${checks('Pre-execution checks',d.pre_checks)}${checks('Post-remediation verification',d.post_checks)}`}
+async function decide(ok){try{await api('POST',`/api/incidents/${sel}/approve`,{approved:ok,approver:$('#who').value,acknowledge_low_confidence:!!($('#ack')&&$('#ack').checked)});pick(sel)}catch(e){$('#err').textContent=e.message}}
+loadList();
+</script></body></html>

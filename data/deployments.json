@@ -1,0 +1,19 @@
+{
+  "order-service": [
+    {"version": "v2.14.0", "deployed_at": "2026-09-28T09:50:00Z", "deployer": "ci-bot", "change_summary": "Refactor order repository; reduced hikari maximumPoolSize from 50 to 10 and added new report query"},
+    {"version": "v2.13.4", "deployed_at": "2026-09-15T12:00:00Z", "deployer": "ci-bot", "change_summary": "Minor logging improvements"}
+  ],
+  "payment-service": [
+    {"version": "v3.2.1", "deployed_at": "2026-09-28T14:25:00Z", "deployer": "ci-bot", "change_summary": "Add multi-currency support to PaymentRequest handling"},
+    {"version": "v3.2.0", "deployed_at": "2026-09-20T08:30:00Z", "deployer": "ci-bot", "change_summary": "Upgrade payment gateway SDK"}
+  ],
+  "cart-service": [
+    {"version": "v1.8.2", "deployed_at": "2026-09-10T11:00:00Z", "deployer": "ci-bot", "change_summary": "Update product thumbnail URLs"}
+  ],
+  "checkout-service": [
+    {"version": "v4.0.3", "deployed_at": "2026-09-12T10:15:00Z", "deployer": "ci-bot", "change_summary": "Fix address validation typo"}
+  ],
+  "auth-service": [
+    {"version": "v5.1.0", "deployed_at": "2026-09-05T13:00:00Z", "deployer": "ci-bot", "change_summary": "Add refresh token rotation"}
+  ]
+}

@@ -1,0 +1,22 @@
+{
+  "order-service": {
+    "current": {"cpu_pct": 38, "memory_pct": 61, "error_rate_pct": 47.0, "p95_latency_ms": 30500, "pod_restarts": 0, "db_pool_utilization_pct": 100},
+    "post_remediation": {"cpu_pct": 35, "memory_pct": 58, "error_rate_pct": 0.3, "p95_latency_ms": 210, "pod_restarts": 0, "db_pool_utilization_pct": 41}
+  },
+  "payment-service": {
+    "current": {"cpu_pct": 72, "memory_pct": 66, "error_rate_pct": 63.0, "p95_latency_ms": 1800, "pod_restarts": 14, "db_pool_utilization_pct": 35},
+    "post_remediation": {"cpu_pct": 40, "memory_pct": 52, "error_rate_pct": 0.2, "p95_latency_ms": 180, "pod_restarts": 0, "db_pool_utilization_pct": 33}
+  },
+  "cart-service": {
+    "current": {"cpu_pct": 44, "memory_pct": 55, "error_rate_pct": 9.5, "p95_latency_ms": 4200, "pod_restarts": 0, "redis_memory_pct": 99, "redis_p99_ms": 380},
+    "post_remediation": {"cpu_pct": 41, "memory_pct": 53, "error_rate_pct": 0.4, "p95_latency_ms": 260, "pod_restarts": 0, "redis_memory_pct": 52, "redis_p99_ms": 6}
+  },
+  "checkout-service": {
+    "current": {"cpu_pct": 30, "memory_pct": 48, "error_rate_pct": 21.0, "p95_latency_ms": 12000, "pod_restarts": 0, "upstream_latency_ms": 9800},
+    "post_remediation": {"cpu_pct": 29, "memory_pct": 47, "error_rate_pct": 0.5, "p95_latency_ms": 320, "pod_restarts": 0, "upstream_latency_ms": 400}
+  },
+  "auth-service": {
+    "current": {"cpu_pct": 12, "memory_pct": 40, "error_rate_pct": 100.0, "p95_latency_ms": 90, "pod_restarts": 0, "cert_days_remaining": -1},
+    "post_remediation": {"cpu_pct": 14, "memory_pct": 41, "error_rate_pct": 0.1, "p95_latency_ms": 85, "pod_restarts": 0, "cert_days_remaining": 90}
+  }
+}
